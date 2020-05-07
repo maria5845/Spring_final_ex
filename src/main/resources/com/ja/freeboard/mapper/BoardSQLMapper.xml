@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SQL을 따로 빼서 XML 작업을 진행하기 위한 초기 설정(Mapper 태그 사용법) -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 네임스페이스는 연결하고자하는 매퍼인터페이스 -->
+<mapper namespace="com.ja.freeboard.mapper.BoardSQLMapper">
+	<!-- id는 메소드명 -->
+	<insert id="insert">
+	<!-- CDTA로 순수 SQL 언어처리 필수  -->
+	<![CDATA[
+		INSERT INTO FB_Board
+		VALUES(FB_Board_seq.NEXTVAL,
+		#{member_no},
+		#{board_title},
+		#{board_content},
+		0,
+		SYSDATE)
+		]]>
+	</insert>
+
+	<select id="selectByNo" resultType="com.ja.freeboard.vo.BoardVo">
+	<![CDATA[
+		SELECT * FROM FB_Board
+		WHERE board_no=#{no}
+		]]>
+	</select>
+
+   <select id="selectAll" resultType="com.ja.freeboard.vo.BoardVo" >
+	<![CDATA[
+		SELECT * FROM FB_Board
+		ORDER BY board_no DESC
+		]]>
+	</select>
+     <delete id="deleteByNo">
+         <![CDATA[
+		DELET FROM FB_Board WHERE board_no=#{no}
+		]]>
+     </delete>
+     <update id="update">
+        <![CDATA[
+         UPDATE FB_Board SET board_title=#{board_title},
+         board_content=#{board_content} WHERE board_no=#{board_no}
+		]]>
+     </update>
+</mapper>

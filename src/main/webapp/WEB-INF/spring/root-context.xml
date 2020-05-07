@@ -27,8 +27,8 @@
 	<mybatis-spring:scan base-package="com.ja.freeboard.mapper"/>
 	
 		<!-- 패키지명에 따라 바뀌게 됨 (루트 컨텍스트 -> 서비스티어 ) -->
-    <context:component-scan base-package="com.ja.freeboard.member.service"></context:component-scan>
-
+    <context:component-scan base-package="com.ja.freeboard.member.service"/>
+    <context:component-scan base-package="com.ja.freeboard.board.service"/>
 		
 		
 		

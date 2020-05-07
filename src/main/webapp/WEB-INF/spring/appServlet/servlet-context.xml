@@ -24,7 +24,7 @@
 	
 	<!-- 패키지명에 따라 바뀌게 됨 (서블릿 컨텍스트 -> 컨트롤러 티어 ) -->
 	<context:component-scan base-package="com.ja.freeboard.member.controller" />
-	
+	<context:component-scan base-package="com.ja.freeboard.board.controller" />
 	
 	
 </beans:beans>

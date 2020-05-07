@@ -28,13 +28,19 @@ public class MemberServiceImpl {
 		
 		memberSQLMapper.insert(memberVo);
 		
-	    try {
+		
+	   // 체크박스 체크가 없을시 예외처리 진행 	
+	   if(member_hobby == null) {
+		   return;
+	   }
 	    for(int hobby : member_hobby) {
 	    	hobbySQLMapper.insert(member_key, hobby);
 	    }
-	     }catch(Exception e) {
-	    	 e.printStackTrace();
-	     }
 	}
+	public MemberVo login(MemberVo memberVo) {
+		
+		return memberSQLMapper.SelectByIdAndPw(memberVo); 
+	}
+	
 
 }
