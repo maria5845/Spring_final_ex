@@ -17,12 +17,10 @@ import com.ja.freeboard.vo.MemberVo;
 @Controller
 @RequestMapping("/board/*")
 public class BoardController {
-
 	
 	@Autowired
 	private BoardServiceImpl boardService;
-	
-	
+
 	@RequestMapping("/main_page.do")
 	public String mainPage(Model model) {
 
@@ -40,7 +38,8 @@ public class BoardController {
 	}
 	@RequestMapping("/write_content_process.do")
 	public String writeContentProcess(BoardVo boardVo ,HttpSession session) {
-		//로직 
+		//Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다. 
+		// session.getAttribute 는 오브젝트파일로 받기 때문에 MemberVo로 형변환 한다. 
 		MemberVo memberVo=(MemberVo)session.getAttribute("sessionUser");
 		
 		boardVo.setMember_no(memberVo.getMember_no());
@@ -48,5 +47,39 @@ public class BoardController {
 		boardService.writeContent(boardVo);
 		
 		return "redirect:./main_page.do";
+	}
+	@RequestMapping("/read_content_page.do")
+	public String readContentPage(int board_no,Model model) {
+
+      Map<String,Object> map =boardService.getBoard(board_no);
+		
+		
+		model.addAttribute("key",map);
+		
+	
+		return "board/read_content_page";
+	}
+	@RequestMapping("/delete_content_process.do")
+	public String deleteContent(int board_no) {
+		
+		boardService.deleteContent(board_no);
+		return"redirect:/board/main_page.do";
+	}
+	
+	@RequestMapping("/update_content_page.do")
+	public String updateContentPage(int board_no,Model model) {
+		
+		model.addAttribute("update",boardService.getBoard(board_no));
+		
+		return"board/update_content_page";
+	}
+	
+	@RequestMapping("/update_content_process.do")
+	public String updateContentProcess(BoardVo boardVo) {
+		
+		boardService.updateContent(boardVo);
+		
+		
+		return"redirect:/board/main_page.do";
 	}
 }

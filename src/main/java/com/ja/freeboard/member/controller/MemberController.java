@@ -13,7 +13,7 @@ import com.ja.freeboard.vo.MemberVo;
 @RequestMapping("/member/*")
 public class MemberController {
 
-	// controller티어에서 Autowired를 통해 service 티어의 내용을 주입받는 역할을 한다.
+	//controller티어에서 Autowired를 통해 service 티어의 내용을 주입받는 역할을 한다.
 	@Autowired
 	private MemberServiceImpl memberService;
 
@@ -44,8 +44,13 @@ public class MemberController {
 		   	 // 로그인 성공 httpSesssion API를 불러오고 set으로 담아주자 리다이렉트 이후 사용을 위해 
 			  session.setAttribute("sessionUser", userData);
 			  System.out.println("메인페이지 접속 ");
-			 return "redirect:/board/main_page.do";
+			  return "redirect:/board/main_page.do";
 		 }
-	
+	   
 	}
+	   @RequestMapping("/logout_process.do")
+       public String logOutProcess(HttpSession session) {
+          session.invalidate();
+      	 return"redirect:/board/main_page.do";
+       }
 }

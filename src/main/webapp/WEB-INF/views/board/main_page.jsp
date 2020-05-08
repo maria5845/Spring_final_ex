@@ -18,7 +18,7 @@
     </c:when>
        
        <c:otherwise>
-               비회원 접근.... <a href="${pageContext.request.contextPath}/member/login_process.do">로그인</a>
+               비회원 접근.... <a href="${pageContext.request.contextPath}/member/login_page.do">로그인</a>
        </c:otherwise>
        </c:choose>
        
@@ -37,7 +37,7 @@
    <c:forEach items="${datalist}" var="boardlist">
    <tr>
       <td>${boardlist.boardVo.board_no}</td>
-      <td>${boardlist.boardVo.board_title}</td>
+      <td><a href="${pageContext.request.contextPath}/board/read_content_page.do?board_no=${boardlist.boardVo.board_no}">${boardlist.boardVo.board_title}</a></td>
       <td>${boardlist.memberVo.member_no}</td>
       <td>${boardlist.boardVo.board_writedate}</td>
       <td>${boardlist.boardVo.board_readcount}</td>
