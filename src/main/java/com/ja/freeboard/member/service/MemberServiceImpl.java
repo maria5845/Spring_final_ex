@@ -21,7 +21,6 @@ public class MemberServiceImpl {
 
 		// 맴버 넘버값을 fb_hobby 테이블에 담기 위한 작업 
 		// 1.맴버 넘버 값을 따로 빼서 담는 creatKey 메소드를 생성하여 담는다
-		// 2. 
 		int member_key = memberSQLMapper.creatKey();
 		
 		memberVo.setMember_no(member_key);
