@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet"
@@ -14,7 +15,7 @@
 <jsp:include page="../commons/global_nav.jsp"></jsp:include>
 	<div class="container mt-5">
 	  <div class="row">
-	  <div class="col-3"></div>
+	  <div ></div>
 	  <div class="col">
 	     <div class="row text-center"> 
 	     <!-- 로고자리 -->
@@ -43,7 +44,7 @@
 	          <div class="col"><a href="./join_member_page.do" class="btn btn-outline-primary btn-lg btn-block">회원가입</a></div> 
 	         </div>
 	  </div>
-	  <div class="col-3"></div>
+	  <div ></div>
 	  </div>
 	</div>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

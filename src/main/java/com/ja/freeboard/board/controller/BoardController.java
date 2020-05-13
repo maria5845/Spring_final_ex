@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ja.freeboard.board.service.BoardServiceImpl;
 import com.ja.freeboard.vo.BoardVo;
@@ -22,12 +23,25 @@ public class BoardController {
 	private BoardServiceImpl boardService;
 
 	@RequestMapping("/main_page.do")
-	public String mainPage(Model model) {
-
-		List<Map<String,Object>> list =boardService.getBoardList();
-	    model.addAttribute("datalist",list);
+	public String mainPage(String search_word,Model model,
+		@RequestParam(value="currPage",required = false,defaultValue = "1")int currPage) {
+		List<Map<String,Object>> list =boardService.getBoardList(search_word,currPage);
+		int totalCount = boardService.getBoardDataCount(search_word);
 		
-	    return"board/main_page";
+		//%5 +1 *5
+		
+		int beginPage = ((currPage-1)/5)*5+1;
+		int endPage = ((currPage-1)/5 + 1)*(5);
+		
+		if(endPage>((totalCount-1))/10+1) {
+			endPage=((totalCount-1))/10+1;
+		}
+		model.addAttribute("beginPage",beginPage);
+		model.addAttribute("endPage",endPage);
+		model.addAttribute("totalCount",totalCount);
+		model.addAttribute("datalist",list);
+		model.addAttribute("currPage",currPage);
+		return"board/main_page";
 	}
 	
 	@RequestMapping("/write_content_page.do")

@@ -26,23 +26,34 @@ public class BoardServiceImpl {
 
 	}
 
-	public List<Map<String, Object>> getBoardList() {
-
+	public List<Map<String, Object>> getBoardList(String serachWord,int currPage) {
+		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-
-		List<BoardVo> boardlist = boardSQLMapper.selectAll();
-
+		
+		List<BoardVo> boardlist = null;
+		
+		if(serachWord == null) {
+			// 검색값이 없으면 전체 페이지 
+		    boardlist = boardSQLMapper.selectAll(currPage);
+		}else {
+			// 검색값이 있으면 검색된 페이지를 보여즘 
+			boardlist = boardSQLMapper.selectByTitle(serachWord,currPage);
+		}		
+		
 		for (BoardVo boardVo : boardlist) {
 
 			MemberVo memberVo = memberSQLMapper.SelectByNo(boardVo.getMember_no());
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			// Map<String,Object> map = new HashMap<>(); 이것도 가능 1.8버전 문법
+			
 			map.put("memberVo", memberVo);
+			
 			map.put("boardVo", boardVo);
-
+             
 			list.add(map);
 		}
+		
 		return list;
 	}
 
@@ -70,5 +81,14 @@ public class BoardServiceImpl {
 
 	public void updateContent(BoardVo boardVo) {
 		boardSQLMapper.update(boardVo);
+	}
+	
+	public int getBoardDataCount(String serachWord){
+		if(serachWord == null) {
+			return boardSQLMapper.selectAllCount();
+		}else {
+			return boardSQLMapper.selectByTitleCount(serachWord);
+		}
+		
 	}
 }
