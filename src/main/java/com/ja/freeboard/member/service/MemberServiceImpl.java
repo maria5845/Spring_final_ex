@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.ja.freeboard.mapper.HobbySQLMapper;
 import com.ja.freeboard.mapper.MemberSQLMapper;
+import com.ja.freeboard.util.FBMessageDigest;
 import com.ja.freeboard.vo.MemberVo;
+
+import java.security.*;
 
 @Service
 public class MemberServiceImpl {
@@ -18,28 +21,29 @@ public class MemberServiceImpl {
 	private HobbySQLMapper hobbySQLMapper;
 
 	public void joinMember(MemberVo memberVo, int[] member_hobby) {
-
-		// 맴버 넘버값을 fb_hobby 테이블에 담기 위한 작업 
+		// 비밀번호 해싱작업 유틸 클래스로 메서드를 분리하였다.
+	     String hashCode =FBMessageDigest.digest(memberVo.getMember_pw());
+		 memberVo.setMember_pw(hashCode); 
+		// 맴버 넘버값을 fb_hobby 테이블에 담기 위한 작업
 		// 1.맴버 넘버 값을 따로 빼서 담는 creatKey 메소드를 생성하여 담는다
 		int member_key = memberSQLMapper.creatKey();
-		
-		memberVo.setMember_no(member_key);
-		
-		memberSQLMapper.insert(memberVo);
-		
-		
-	   // 체크박스 체크가 없을시 예외처리 진행 	
-	   if(member_hobby == null) {
-		   return;
-	   }
-	    for(int hobby : member_hobby) {
-	    	hobbySQLMapper.insert(member_key, hobby);
-	    }
-	}
-	public MemberVo login(MemberVo memberVo) {
-		
-		return memberSQLMapper.SelectByIdAndPw(memberVo); 
-	}
-	
 
+		memberVo.setMember_no(member_key);
+
+		memberSQLMapper.insert(memberVo);
+
+		// 체크박스 체크가 없을시 예외처리 진행
+		if (member_hobby == null) {
+			return;
+		}
+		for (int hobby : member_hobby) {
+			hobbySQLMapper.insert(member_key, hobby);
+		}
+	}
+
+	public MemberVo login(MemberVo memberVo) {
+	    String hashCode = FBMessageDigest.digest(memberVo.getMember_pw());
+	     memberVo.setMember_pw(hashCode);
+		return memberSQLMapper.SelectByIdAndPw(memberVo);
+	}
 }

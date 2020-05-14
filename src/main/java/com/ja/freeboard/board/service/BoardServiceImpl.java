@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.ja.freeboard.mapper.BoardSQLMapper;
 import com.ja.freeboard.mapper.MemberSQLMapper;
+import com.ja.freeboard.mapper.UploadFileSQLMapper;
 import com.ja.freeboard.vo.BoardVo;
 import com.ja.freeboard.vo.MemberVo;
+import com.ja.freeboard.vo.UploadFileVo;
 
 @Service
 
@@ -20,10 +22,22 @@ public class BoardServiceImpl {
 	private BoardSQLMapper boardSQLMapper;
 	@Autowired
 	private MemberSQLMapper memberSQLMapper;
+	@Autowired
+	private UploadFileSQLMapper uploadFileSQLMapper;
 
-	public void writeContent(BoardVo boardVo) {
+	public void writeContent(BoardVo boardVo, List<UploadFileVo> fileVolist) {
+		
+		int boardKey = boardSQLMapper.creatKey();
+		
+		boardVo.setBoard_no(boardKey);
+		
 		boardSQLMapper.insert(boardVo);
-
+		
+		for(UploadFileVo fileVo : fileVolist) {
+			fileVo.setBoard_no(boardKey);
+			
+			uploadFileSQLMapper.insert(fileVo);
+		}
 	}
 
 	public List<Map<String, Object>> getBoardList(String serachWord,int currPage) {
@@ -67,8 +81,11 @@ public class BoardServiceImpl {
 		
 		MemberVo memberVo = memberSQLMapper.SelectByNo(boardVo.getMember_no());
 		
+		// 파일 링크를 담기 
+		List<UploadFileVo> fileVoList = uploadFileSQLMapper.selectByBoardNo(board_no);
+	
 		map.put("memberVo", memberVo);
-		
+		map.put("fileVoList",fileVoList);
 		map.put("boardVo", boardVo);
 		
 		return map;

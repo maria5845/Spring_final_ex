@@ -12,6 +12,11 @@
 글쓴이 :${key.memberVo.member_nick }<br>
 조회수 :${key.boardVo.board_readcount }<br>
 내용 :${key.boardVo.board_content }<br>
+<br>
+<c:forEach items="${key.fileVoList}" var="fileVo">
+ <img src="/upload/${fileVo.file_link_path}"><br>
+ 
+</c:forEach>
 <a href="${pageContext.request.contextPath}/board/main_page.do">목록으로</a>
 <c:if test="${!empty sessionUser && sessionUser.member_no == key.memberVo.member_no }">
 <a href="${pageContext.request.contextPath}/board/delete_content_process.do?board_no=${key.boardVo.board_no}">삭제</a>

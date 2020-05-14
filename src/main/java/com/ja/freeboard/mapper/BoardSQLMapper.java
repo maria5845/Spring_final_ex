@@ -10,6 +10,8 @@ import com.ja.freeboard.vo.BoardVo;
 
 public interface BoardSQLMapper {
  
+	public int creatKey();
+
 	public void insert(BoardVo boardVo);
    
 	public BoardVo selectByNo(int no);
