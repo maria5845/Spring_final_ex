@@ -7,8 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
- <h1>로그인에 실패하였습니다(아이디와 비밀번호를 확인해주세요)</h1><br>
-    혹은 이메일 인증을 진행해주세요<br>
-  <a href="./login_page.do">로그인페이지로</a>
+<h1>인증되었습니다.</h1><br>
+<a href="${pageContext.request.contextPath}/member/login_page.do">로그인페이지로</a>
 </body>
 </html>

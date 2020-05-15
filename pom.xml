@@ -16,7 +16,18 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
-	 <!-- 자바 관련 라이브러리 추가..Mybatis, commons-dbcp(디비 커넥션풀), 스프링 jdbc,파일 업로드 처리 라이브러리  -->
+	 <!-- 자바 관련 라이브러리 추가..Mybatis, commons-dbcp(디비 커넥션풀), 스프링 jdbc,파일 업로드 처리 라이브러리, 메일발송용 라이브러리  -->
+	 <dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<!-- Java Mail API -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>

@@ -65,36 +65,35 @@ public class BoardController {
 	}
 	@RequestMapping("/write_content_process.do")
 	public String writeContentProcess(MultipartFile [] upload_files,BoardVo boardVo ,HttpSession session) {
-		
+		//업로드 되는 파일을 담을 폴더에 루트 폴더경로를 지정 
 		String uploadRootFolderName = "C:/upload/";
-		    
+		//날짜로 분리해서 담을 폴더를 생성     
 		Date today = new Date ();
-		
+		// 데이터 형식을 년도/월/일 로 분리하기 위한 설정 진행 
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		
 		String todayFolder = df.format(today);
-		
+		// 루트폴더 + 날짜로 들어가는 폴더 경로를 합치는 작업 
 		String saveFolderName =  uploadRootFolderName + todayFolder ;
-		
+		// 폴더를 생성하기 위해 File 생성자를 호출 
 		File saveFolder = new File(saveFolderName);
-		
+		// 폴더가 존재하지 않는다면 
 		if(!saveFolder.exists()) {
-		
+		    // 폴더를 생성 
 			saveFolder.mkdirs();
 		}
-		
+		// 리스트 형태로 담아내 파일 공간을 생성 
 		List<UploadFileVo> fileVolist = new ArrayList<UploadFileVo>();
 		
-		
+		// 
 		for(MultipartFile file : upload_files) {
 			 
 		if(file.getSize() <=0) {
 			continue;
 		}
 		//파일명 랜덤이름 짓기 ...(중복배제) 랜덤 + 시간 
-	   	
 		String saveFileName = UUID.randomUUID().toString();
-	    
+	    // 오리지널 파일의 이름을 지
 		String oriFileName = file.getOriginalFilename();
 		
 		saveFileName += "_" + System.currentTimeMillis();

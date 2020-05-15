@@ -50,24 +50,15 @@
                          <td><a href="${pageContext.request.contextPath}/board/read_content_page.do?board_no=${boardlist.boardVo.board_no}">${boardlist.boardVo.board_title}</a></td>
                          <td>${boardlist.memberVo.member_nick}</td>
                          <td>${boardlist.boardVo.board_readcount}</td>
-                         
                           <%--
                           <%
                              java.util.Map<String,Object> map =(java.util.Map<String,Object>)pageContext.getAttribute("boardlist");
-                         
-                             com.ja.freeboard.vo.BoardVo vo =(com.ja.freeboard.vo.BoardVo)map.get("boardVo");
-                             
+                              com.ja.freeboard.vo.BoardVo vo =(com.ja.freeboard.vo.BoardVo)map.get("boardVo");                             
                               java.util.Date date = vo.getBoard_writedate();
-                              
                               java.text.SimpleDateFormat sd = new java.text.SimpleDateFormat("yy.MM.dd");
-                              
                               String PrintValue = sd.format(date);
-                              
-                              
                             %> 
                             --%> 
-                         
-                         
                           <td><fmt:formatDate value="${boardlist.boardVo.board_writedate}" pattern="yy.MM.dd hh:mm:ss"/> </td>
                           </tr>
                         </c:forEach>

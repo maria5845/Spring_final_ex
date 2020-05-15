@@ -11,14 +11,13 @@
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 <script type="text/javascript">
+
 function frm_submit(){
  var frm = document.getElementById("frm");
  // 유효성검사
- var idBox = document.getElementById("id");
- 
+ var idBox = document.getElementById("id"); 
  //id 유효성 검사 
  var reg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-
  
  if(!reg.test(idBox.value)){
 	 alert("이메일 형식을 확인해 주세요");
@@ -39,7 +38,31 @@ function frm_submit(){
  frm.submit();
 }
 
-
+// Ajax 시작 
+function testAjax(){
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if(xmlhttp.readyState==4 && xmlhttp.status == 200 ){
+		 
+		 var box = document.getElementById("test_box");
+		 
+		 var obj =JSON.parse(xmlhttp.responseText);
+		 
+		 var ul = document.createElement("ul");
+		 //자바스크립트 foreach문
+		 for(list of obj){
+			var li = document.createElement("li");
+			li.innerText = list.member_nick;
+			ul.appendChild(li);
+		 }
+		 box.appendChild(ul);
+		}
+	}
+	xmlhttp.open("get","./testAjax.do");
+	
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.send();	
+}
 </script>	
 	
 	
@@ -61,6 +84,7 @@ function frm_submit(){
 	            <div class=col-1>ID</div>
 	            <div class=col>
 	            <input type="text" placeholder="이메일을 입력해주세요" name="member_id" class="form-control" id="id">
+	            <input type="button" value="아이디확인" onclick="testAjax()">
 	            </div>
 	      </div>
 	       <div class="row mt-3">
@@ -127,5 +151,11 @@ function frm_submit(){
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
 		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 		crossorigin="anonymous"></script>
+
+<div id="test_box">
+
+
+
+</div>
 </body>
 </html>

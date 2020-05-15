@@ -10,7 +10,6 @@
 	  SELECT FB_board_seq.nextval FROM DUAL
 	     ]]>
 	</select>
-	
 	<insert id="insert">
 	<!-- CDTA로 순수 SQL 언어처리 필수  -->
 	<![CDATA[

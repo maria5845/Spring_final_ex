@@ -16,7 +16,6 @@ import com.ja.freeboard.vo.MemberVo;
 import com.ja.freeboard.vo.UploadFileVo;
 
 @Service
-
 public class BoardServiceImpl {
 	@Autowired
 	private BoardSQLMapper boardSQLMapper;
@@ -25,6 +24,7 @@ public class BoardServiceImpl {
 	@Autowired
 	private UploadFileSQLMapper uploadFileSQLMapper;
 
+	
 	public void writeContent(BoardVo boardVo, List<UploadFileVo> fileVolist) {
 		
 		int boardKey = boardSQLMapper.creatKey();
@@ -60,7 +60,6 @@ public class BoardServiceImpl {
 
 			Map<String, Object> map = new HashMap<String, Object>();
 			// Map<String,Object> map = new HashMap<>(); 이것도 가능 1.8버전 문법
-			
 			map.put("memberVo", memberVo);
 			
 			map.put("boardVo", boardVo);
