@@ -1,4 +1,4 @@
-# Spring_final_ex
+# Spring_final_ex version2
 
 login_fail.jsp <br>
 BoardController <br>
