@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ja.freeboard.mapper.MemberSQLMapper">
+	<select id="creatKey" resultType="int">
+		<![CDATA[
+	      SELECT FB_Member_seq.nextval FROM DUAL
+	     ]]>
+	</select>
+	<insert id="insert">
+	<![CDATA[
+		INSERT INTO 
+		FB_Member 
+		VALUES(#{member_no},#{member_id},#{member_pw},#{member_nick},#{member_sex},SYSDATE)
+		]]>
+	</insert>
+		<select id="SelectByIdAndPw" resultType="com.ja.freeboard.vo.MemberVo">
+		<![CDATA[
+	      SELECT * 
+	      FROM FB_Member m, fb_member_auth a 
+	      WHERE m.member_no = a.member_no 
+	      AND m.member_id=#{member_id} AND m.member_pw=#{member_pw} 
+	      AND a.auth_certification = 'Y'
+	     ]]>
+	</select>
+	   <select id ="SelectByNo" resultType="com.ja.freeboard.vo.MemberVo">
+	   	<![CDATA[
+	   SELECT * FROM FB_Member WHERE member_no=#{no}
+	    ]]>
+	   </select>
+	   
+	 <select id="SelectById" resultType="com.ja.freeboard.vo.MemberVo">
+	    	<![CDATA[
+	      SELECT * FROM FB_Member WHERE member_id=#{id}
+	   ]]>
+	 </select>
+</mapper>

@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ja.freeboard.member.service.MemberServiceImpl;
 import com.ja.freeboard.vo.AuthVo;
@@ -83,11 +84,15 @@ public class MemberController {
 		session.invalidate();
 		return "redirect:/board/main_page.do";
 	}
-
-	@RequestMapping("/testAjax.do")
-	public String testAjax() {
-		System.out.println("에이작스");
-		return "member/testAjax";
+    
+	@RequestMapping("/confirmId.do")
+	@ResponseBody
+	public String confirmid(String id) {
+		if (memberService.confrimId(id)) {
+			return "true";
+		} else {
+			return "false";
+		}
 	}
 
 }
@@ -109,6 +114,7 @@ class FBMailSenderThread extends Thread {
 	@Override
 	public void run() {
 		try {
+
 			MimeMessage message = null;
 			MimeMessageHelper messageHelper = null;
 			message = mailSender.createMimeMessage();

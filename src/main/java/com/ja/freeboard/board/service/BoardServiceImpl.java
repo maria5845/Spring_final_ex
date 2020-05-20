@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.ja.freeboard.mapper.BoardSQLMapper;
 import com.ja.freeboard.mapper.MemberSQLMapper;
+import com.ja.freeboard.mapper.ReplySQLMapper;
 import com.ja.freeboard.mapper.UploadFileSQLMapper;
 import com.ja.freeboard.vo.BoardVo;
 import com.ja.freeboard.vo.MemberVo;
+import com.ja.freeboard.vo.ReplyVo;
 import com.ja.freeboard.vo.UploadFileVo;
 
 @Service
@@ -23,37 +25,38 @@ public class BoardServiceImpl {
 	private MemberSQLMapper memberSQLMapper;
 	@Autowired
 	private UploadFileSQLMapper uploadFileSQLMapper;
+	@Autowired
+	private ReplySQLMapper replySQLMapper;
 
-	
 	public void writeContent(BoardVo boardVo, List<UploadFileVo> fileVolist) {
-		
+
 		int boardKey = boardSQLMapper.creatKey();
-		
+
 		boardVo.setBoard_no(boardKey);
-		
+
 		boardSQLMapper.insert(boardVo);
-		
-		for(UploadFileVo fileVo : fileVolist) {
+
+		for (UploadFileVo fileVo : fileVolist) {
 			fileVo.setBoard_no(boardKey);
-			
+
 			uploadFileSQLMapper.insert(fileVo);
 		}
 	}
 
-	public List<Map<String, Object>> getBoardList(String serachWord,int currPage) {
-		
+	public List<Map<String, Object>> getBoardList(String serachWord, int currPage) {
+
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		
+
 		List<BoardVo> boardlist = null;
-		
-		if(serachWord == null) {
-			// 검색값이 없으면 전체 페이지 
-		    boardlist = boardSQLMapper.selectAll(currPage);
-		}else {
-			// 검색값이 있으면 검색된 페이지를 보여즘 
-			boardlist = boardSQLMapper.selectByTitle(serachWord,currPage);
-		}		
-		
+
+		if (serachWord == null) {
+			// 검색값이 없으면 전체 페이지
+			boardlist = boardSQLMapper.selectAll(currPage);
+		} else {
+			// 검색값이 있으면 검색된 페이지를 보여즘
+			boardlist = boardSQLMapper.selectByTitle(serachWord, currPage);
+		}
+
 		for (BoardVo boardVo : boardlist) {
 
 			MemberVo memberVo = memberSQLMapper.SelectByNo(boardVo.getMember_no());
@@ -61,32 +64,32 @@ public class BoardServiceImpl {
 			Map<String, Object> map = new HashMap<String, Object>();
 			// Map<String,Object> map = new HashMap<>(); 이것도 가능 1.8버전 문법
 			map.put("memberVo", memberVo);
-			
+
 			map.put("boardVo", boardVo);
-             
+
 			list.add(map);
 		}
-		
+
 		return list;
 	}
 
 	public Map<String, Object> getBoard(int board_no) {
-	
+
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		boardSQLMapper.updateReadCount(board_no);
-		
+
 		BoardVo boardVo = boardSQLMapper.selectByNo(board_no);
-		
+
 		MemberVo memberVo = memberSQLMapper.SelectByNo(boardVo.getMember_no());
-		
-		// 파일 링크를 담기 
+
+		// 파일 링크를 담기
 		List<UploadFileVo> fileVoList = uploadFileSQLMapper.selectByBoardNo(board_no);
-	
+
 		map.put("memberVo", memberVo);
-		map.put("fileVoList",fileVoList);
+		map.put("fileVoList", fileVoList);
 		map.put("boardVo", boardVo);
-		
+
 		return map;
 
 	}
@@ -98,13 +101,37 @@ public class BoardServiceImpl {
 	public void updateContent(BoardVo boardVo) {
 		boardSQLMapper.update(boardVo);
 	}
-	
-	public int getBoardDataCount(String serachWord){
-		if(serachWord == null) {
+
+	public int getBoardDataCount(String serachWord) {
+		if (serachWord == null) {
 			return boardSQLMapper.selectAllCount();
-		}else {
+		} else {
 			return boardSQLMapper.selectByTitleCount(serachWord);
 		}
-		
+
 	}
+
+	public List<Map<String, Object>> getReplyList(int board_no) {
+
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+
+		List<ReplyVo> replyVoList = replySQLMapper.SelectByBoardNo(board_no);
+
+		for (ReplyVo replyVo : replyVoList) {
+			MemberVo memberVo = memberSQLMapper.SelectByNo(replyVo.getMember_no());
+
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberVo", memberVo);
+			map.put("replyVo", replyVo);
+			list.add(map);
+
+		}
+
+		return list;
+	}
+
+	public void writeReply(ReplyVo replyVo) {
+		replySQLMapper.insert(replyVo);
+	}
+
 }

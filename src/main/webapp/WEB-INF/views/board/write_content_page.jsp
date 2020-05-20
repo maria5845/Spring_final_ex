@@ -5,6 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.0.2.min.js" type="application/javascript"></script>
+<script>
+
+
+</script>
+
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/board/write_content_process.do" method="post" enctype="multipart/form-data">
