@@ -1,4 +1,4 @@
-# Spring_final_ex version6 
+# Spring_final_ex version7
 
 -----이메일 인증 <br>
  <br>
